@@ -1,21 +1,33 @@
-def ui(userput):
-    match userput:
-        case "w":
-            return "North"
-        case "a":
-            return "West"
-        case "s":
-            return "South"
-        case "d":
-            return "East"
-        case "e":
-            return "Shoot"
-        case "":
-            return "Bye"
+class Tank():
+    def __init__(self):
+        pass
+    def move(self, to):
+        if to == "n":
+            print("Moved North")
+        if to == "w":
+            print("Moved West")
+        if to == "s":
+            print("Moved South")
+        if to == "e":
+            print("Moved East")
+
+Tank001 = Tank()
+
 while True:
     userput = input("Enter tank command:")
-    print(ui(userput))
-    if userput == "":
-        break
-    else:
-        continue
+    match userput:
+        case "w":
+            Tank001.move("n")
+        case "a":
+            Tank001.move("w")
+        case "s":
+            Tank001.move("s")
+        case "d":
+            Tank001.move("e")
+        case "e":
+            pass
+        case "":
+            print ("Bye")
+            break
+
+
