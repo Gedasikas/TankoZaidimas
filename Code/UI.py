@@ -1,3 +1,15 @@
+import random
+class Enemy:
+    def __init__(self):
+        self.ecordinates = self.generate_cord()
+
+    def generate_cord(self):
+        while True:
+            ecordinates = (random.randint(-10, 10), random.randint(-10, 10))
+            if ecordinates == (0, 0) or ecordinates == (1, 1) or ecordinates == (-1, -1) or ecordinates == (-1, 1) or ecordinates == (1, -1):
+                continue
+            else:
+                return ecordinates
 class Tank:
     def __init__(self, cordinateX, cordinateY, direction, shelldc):
         self.cordinateX = cordinateX
@@ -37,9 +49,13 @@ class Tank:
             self.shelldc["Shot to East"] += 1
             print("SHOT TO EAST")
 
+    def info(self):
+        print(f"Tank Cordinates:{(Tank001.cordinateX, Tank001.cordinateY)}")
+        print(f"Direction: {Tank001.direction}")
+        print(Tank001.shelldc)
 
 Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, })
-
+Enemy001 = Enemy()
 while True:
     userput = input("Enter tank command:")
     match userput:
@@ -54,9 +70,8 @@ while True:
         case "e":
             Tank001.shoot()
         case "c":
-            print(f"Tank Cordinates:{(Tank001.cordinateX, Tank001.cordinateY)}")
-            print(f"Direction: {Tank001.direction}")
-            print(Tank001.shelldc)
+            Tank001.info()
+            print(Enemy001.ecordinates)
         case "":
             print("Bye")
             break
