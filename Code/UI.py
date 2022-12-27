@@ -1,31 +1,44 @@
-class Tank():
-    def __init__(self, cordinateX, cordinateY, direction):
+class Tank:
+    def __init__(self, cordinateX, cordinateY, direction, shelldc):
         self.cordinateX = cordinateX
         self.cordinateY = cordinateY
         self.direction = direction
+        self.shelldc = shelldc
+
     def move(self, to):
         if to == "n":
-            self.direction = "Up"
+            self.direction = "UP"
             self.cordinateY += 1
-            print("Moved North")
+            print("MOVED NORTH")
         if to == "w":
-            self.direction = "Left"
+            self.direction = "LEFT"
             self.cordinateX -= 1
-            print("Moved West")
+            print("MOVED WEST")
         if to == "s":
-            self.direction = "Down"
+            self.direction = "DOWN"
             self.cordinateY -= 1
-            print("Moved South")
+            print("MOVED SOUTH")
         if to == "e":
-            self.direction = "Right"
+            self.direction = "RIGHT"
             self.cordinateX += 1
-            print("Moved East")
+            print("MOVED EAST")
 
     def shoot(self):
-        print("Shot")
+        if self.direction == "UP":
+            self.shelldc["Shot to North"] += 1
+            print("SHOT TO NORTH")
+        if self.direction == "LEFT":
+            self.shelldc["Shot to West"] += 1
+            print("SHOT TO WEST")
+        if self.direction == "DOWN":
+            self.shelldc["Shot to South"] += 1
+            print("SHOT TO SOUTH")
+        if self.direction == "RIGHT":
+            self.shelldc["Shot to East"] += 1
+            print("SHOT TO EAST")
 
 
-Tank001 = Tank(0, 0, "Up")
+Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, })
 
 while True:
     userput = input("Enter tank command:")
@@ -41,10 +54,9 @@ while True:
         case "e":
             Tank001.shoot()
         case "c":
-            print((Tank001.cordinateX, Tank001.cordinateY))
-            print(Tank001.direction)
+            print(f"Tank Cordinates:{(Tank001.cordinateX, Tank001.cordinateY)}")
+            print(f"Direction: {Tank001.direction}")
+            print(Tank001.shelldc)
         case "":
-            print ("Bye")
+            print("Bye")
             break
-
-
