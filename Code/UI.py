@@ -38,21 +38,31 @@ class Tank:
     def shoot(self):
         if self.direction == "UP":
             self.shelldc["Shot to North"] += 1
+            bullet = self.cordinateY + 20
+
             print("SHOT TO NORTH")
+            return bullet
         if self.direction == "LEFT":
             self.shelldc["Shot to West"] += 1
+            bullet = self.cordinateX - 20
             print("SHOT TO WEST")
+            return bullet
         if self.direction == "DOWN":
             self.shelldc["Shot to South"] += 1
+            bullet = self.cordinateY - 20
             print("SHOT TO SOUTH")
+            return bullet
         if self.direction == "RIGHT":
             self.shelldc["Shot to East"] += 1
+            bullet = self.cordinateX + 20
             print("SHOT TO EAST")
+            return bullet
 
     def info(self):
         print(f"Tank Cordinates:{(Tank001.cordinateX, Tank001.cordinateY)}")
         print(f"Direction: {Tank001.direction}")
         print(Tank001.shelldc)
+
 
 Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, })
 Enemy001 = Enemy()
@@ -71,7 +81,7 @@ while True:
             Tank001.shoot()
         case "c":
             Tank001.info()
-            print(Enemy001.ecordinates)
+            print(f"Enemy Cordinates:: {Enemy001.ecordinates}")
         case "":
             print("Bye")
             break
