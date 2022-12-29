@@ -23,10 +23,12 @@ class Tank:
         self.shelldc = shelldc
         self.gas = gas
     def loose_gas(self, action):
-            if action in ("w",  "d", "s", "a"):
-                self.gas -= 15
-            if action in ("-", "+"):
+            if action in ("w",  "d", "s", "a", "e"):
+                self.gas -= 10
+            if action in ("-", "+", "c"):
                 self.gas -= 5
+    def gain_gas(self):
+        self.gas += 50
 
     def move(self, to):
         if to == "n":
@@ -139,7 +141,7 @@ class Tank:
                 print(".")
             return False
     def info(self):
-        print(self.gas)
+        print(f"Gas left: {self.gas}")
         print(f"Tank Cordinates:{(self.cordinateX, self.cordinateY)}")
         print(f"Direction: {self.direction}")
         print(self.shelldc)
