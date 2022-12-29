@@ -1,6 +1,9 @@
 import random
 import time
 
+class Plain:
+    pass
+
 class Enemy:
     def __init__(self):
         self.ecordinates = self.generate_cord()
@@ -22,6 +25,9 @@ class Tank:
         self.direction = direction
         self.shelldc = shelldc
         self.gas = gas
+        self.hittarget = 0
+        self.missedtarget = 0
+
     def loose_gas(self, action):
             if action in ("w",  "d", "s", "a", "e"):
                 self.gas -= 10
@@ -140,8 +146,13 @@ class Tank:
                 time.sleep(0.5)
                 print(".")
             return False
+    def target_hit(self):
+        self.hittarget += 1
+    def target_missed(self):
+        self.missedtarget += 1
+
     def info(self):
-        print(f"Gas left: {self.gas}")
+        print(f"GAS LEFT: {self.gas}")
         print(f"Tank Cordinates:{(self.cordinateX, self.cordinateY)}")
         print(f"Direction: {self.direction}")
         print(self.shelldc)
