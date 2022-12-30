@@ -2,7 +2,7 @@ from Code.Logic import Tank, Enemy, Plain
 Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, }, 100)
 Enemy001 = Enemy()
 Plain001 = Plain()
-#___________
+#----------
 Tank001.info()
 print(f"Enemy cordinates: {Enemy001.ecordinates}")
 print()
@@ -52,8 +52,7 @@ while True:
             case "e":
                 print()
                 Tank001.shoot()
-                if Tank001.check_hit(Enemy001.ecordinates,
-                                     Tank001.gen_bullet(Tank001.direction, Tank001.cordinateX, Tank001.cordinateY)) == True:
+                if Tank001.check_hit(Enemy001.ecordinates, Tank001.gen_bullet(Tank001.direction, Tank001.cordinateX, Tank001.cordinateY)) == True:
                     print("HIT")
                     Tank001.target_hit()
                     Tank001.gain_gas()

@@ -11,8 +11,7 @@ class Enemy:
     def generate_cord(self):
         while True:
             ecordinates = (random.randint(-10, 10), random.randint(-10, 10))
-            if ecordinates == (0, 0) or ecordinates == (1, 1) or ecordinates == (-1, -1) or ecordinates == (
-            -1, 1) or ecordinates == (1, -1):
+            if ecordinates == (0, 0):
                 continue
             else:
                 return ecordinates
@@ -142,7 +141,7 @@ class Tank:
             if self.cordinateX < 0 and abs(ecx - self.cordinateX) <= 10:
                 return hit(self.direction, self.cordinateX, ecx, bn)
         else:
-            for hit in range(0, 8):
+            for hit in range(0, 11):
                 time.sleep(0.5)
                 print(".")
             return False
