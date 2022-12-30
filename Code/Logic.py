@@ -2,8 +2,11 @@ import random
 import time
 
 class Plain:
-    pass
-
+    def __init__(self, xmax, ymax):
+        self.xmax = xmax
+        self.ymax = ymax
+        self.xmin = -xmax
+        self.ymin = -ymax
 class Enemy:
     def __init__(self):
         self.ecordinates = self.generate_cord()
@@ -28,7 +31,7 @@ class Tank:
         self.missedtarget = 0
 
     def loose_gas(self, action):
-        if action in ("w",  "d", "s", "a", "e"):
+        if action in ("n",  "w", "s", "e"):
             self.gas -= 10
         if action in ("-", "+", "c"):
             self.gas -= 5
