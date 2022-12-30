@@ -1,4 +1,5 @@
 from Code.Logic import Tank, Enemy, Plain
+import time
 Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, }, 100)
 Enemy001 = Enemy()
 Plain001 = Plain()
@@ -52,11 +53,15 @@ while True:
             case "e":
                 print()
                 Tank001.shoot()
-                if Tank001.check_hit(Enemy001.ecordinates, Tank001.gen_bullet(Tank001.direction, Tank001.cordinateX, Tank001.cordinateY)) == True:
+                if Tank001.check_hit(Enemy001.ecordinates) == True:
                     print("HIT")
                     Tank001.target_hit()
                     Tank001.gain_gas()
                     Enemy001.ecordinates = Enemy001.generate_cord()
+                    time.sleep(0.75)
+                    print()
+                    Tank001.info()
+                    print(f"Enemy cordinates: {Enemy001.ecordinates}")
                 else:
                     print("MISS HIT")
                     Tank001.target_missed()

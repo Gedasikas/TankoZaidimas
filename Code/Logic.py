@@ -28,10 +28,11 @@ class Tank:
         self.missedtarget = 0
 
     def loose_gas(self, action):
-            if action in ("w",  "d", "s", "a", "e"):
-                self.gas -= 10
-            if action in ("-", "+", "c"):
-                self.gas -= 5
+        if action in ("w",  "d", "s", "a", "e"):
+            self.gas -= 10
+        if action in ("-", "+", "c"):
+            self.gas -= 5
+
     def gain_gas(self):
         self.gas += 50
 
@@ -73,20 +74,6 @@ class Tank:
             else:
                 self.direction = "UP"
 
-    def gen_bullet(self, d, cx, cy):
-        if d == "UP":
-            bullet = (cy + (11 - cy), cy + 11)
-            return bullet
-        if d == "DOWN":
-            bullet = (cy - 11, cy - (11 + cy))
-            return bullet
-        if d == "LEFT":
-            bullet = (cx - 11, cx - (11 + cx))
-            return bullet
-        if d == "RIGHT":
-            bullet = (cx + (11 - cx), cx + 11)
-            return bullet
-
     def shoot(self):
         if self.direction == "UP":
             self.shelldc["Shot to North"] += 1
@@ -101,17 +88,15 @@ class Tank:
             self.shelldc["Shot to East"] += 1
             print("SHOT TO EAST")
 
-    def check_hit(self, ec, bullet):
+    def check_hit(self, ec):
         ecx = ec[0]
         ecy = ec[1]
-        bp = bullet[0]
-        bn = bullet[1]
 
-        def hit(d, tankc, enemyc, quadrant):
+        def hit(d, tankc, enemyc):
             if d == "UP" or d == "RIGHT":
-                ran = range(tankc, quadrant)
+                ran = range(tankc, tankc+11)
             if d == "DOWN" or d == "LEFT":
-                ran = range(tankc, quadrant, -1)
+                ran = range(tankc, tankc-11, -1)
             for shot in ran:
                 time.sleep(0.5)
                 if shot == enemyc:
@@ -121,30 +106,19 @@ class Tank:
                     continue
 
         if self.direction == "UP" and self.cordinateX == ecx and ecy >= self.cordinateY:
-            if self.cordinateY >= 0 and abs(ecy - self.cordinateY) <= 10:
-                return hit(self.direction, self.cordinateY, ecy, bp)
-            if self.cordinateY < 0 and abs(ecy - self.cordinateY) <= 10:
-                return hit(self.direction, self.cordinateY, ecy, bn)
+            return hit(self.direction, self.cordinateY, ecy)
         if self.direction == "DOWN" and self.cordinateX == ecx and ecy <= self.cordinateY:
-            if self.cordinateY >= 0 and abs(ecy - self.cordinateY) <= 10:
-                return hit(self.direction, self.cordinateY, ecy, bp)
-            if self.cordinateY < 0 and abs(ecy - self.cordinateY) <= 10:
-                return hit(self.direction, self.cordinateY, ecy, bn)
+                return hit(self.direction, self.cordinateY, ecy)
         if self.direction == "LEFT" and self.cordinateY == ecy and ecx <= self.cordinateX:
-            if self.cordinateX >= 0 and abs(ecx - self.cordinateX) <= 10:
-                return hit(self.direction, self.cordinateX, ecx, bp)
-            if self.cordinateX < 0 and abs(ecx - self.cordinateX) <= 10:
-                return hit(self.direction, self.cordinateX, ecx, bn)
+                return hit(self.direction, self.cordinateX, ecx)
         if self.direction == "RIGHT" and self.cordinateY == ecy and ecx >= self.cordinateX:
-            if self.cordinateX >= 0 and abs(ecx - self.cordinateX) <= 10:
-                return hit(self.direction, self.cordinateX, ecx, bp)
-            if self.cordinateX < 0 and abs(ecx - self.cordinateX) <= 10:
-                return hit(self.direction, self.cordinateX, ecx, bn)
+                return hit(self.direction, self.cordinateX, ecx)
         else:
-            for hit in range(0, 11):
+            for hit in range(0, 10):
                 time.sleep(0.5)
                 print(".")
             return False
+
     def target_hit(self):
         self.hittarget += 1
     def target_missed(self):
@@ -155,6 +129,3 @@ class Tank:
         print(f"Tank Cordinates:{(self.cordinateX, self.cordinateY)}")
         print(f"Direction: {self.direction}")
         print(self.shelldc)
-
-
-
