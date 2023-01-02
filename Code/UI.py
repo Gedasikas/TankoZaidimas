@@ -1,17 +1,19 @@
 from Code.Logic import Tank, Enemy, Plain
 import time
-Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, }, 1000)
+#Objects
+Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, }, 150)
 Enemy001 = Enemy()
 Plain001 = Plain(10, 10)
-#----------
+#-----------------
 Tank001.info()
-print(f"Enemy cordinates: {Enemy001.ecordinates}")
+print(f"Enemy coordinates: {Enemy001.ecordinates}")
 print()
-#___________
+
 while True:
     if Tank001.gas <= 0:
+        Tank001.pickle_get_hit()
         Tank001.info()
-        print(f"Enemy cordinates: {Enemy001.ecordinates}\n")
+        print(f"Enemy coordinates: {Enemy001.ecordinates}\n")
         print(f"Targets hit: {Tank001.hittarget}  Targets missed: {Tank001.missedtarget}")
         print("OUT OF GAS\n###GAME OVER###")
         break
@@ -44,7 +46,7 @@ while True:
                 print()
             case "d":
                 print()
-                if Tank001.cordinateX != Plain001.xmax:
+                if Tank001.cordinateX != Plain001.xmax :
                     Tank001.move("e")
                 if Tank001.cordinateX == Plain001.xmax:
                     print("REACHED THE MAP BORDER")
@@ -73,7 +75,7 @@ while True:
                     time.sleep(0.75)
                     print()
                     Tank001.info()
-                    print(f"Enemy cordinates: {Enemy001.ecordinates}")
+                    print(f"Enemy coordinates: {Enemy001.ecordinates}")
                 else:
                     print("MISS HIT")
                     Tank001.target_missed()
@@ -83,8 +85,15 @@ while True:
                 print()
                 Tank001.loose_gas("c")
                 Tank001.info()
-                print(f"Enemy cordinates: {Enemy001.ecordinates}")
+                print(f"Enemy coordinates: {Enemy001.ecordinates}")
                 print()
             case "/":
                 print("Bye")
                 break
+            case other:
+                print()
+                print("COMMAND DOES NOT EXIST")
+                print()
+
+
+

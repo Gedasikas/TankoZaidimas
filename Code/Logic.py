@@ -1,5 +1,6 @@
 import random
 import time
+import pickle
 
 class Plain:
     def __init__(self, xmax, ymax):
@@ -19,7 +20,6 @@ class Enemy:
             else:
                 return ecordinates
 
-
 class Tank:
     def __init__(self, cordinateX, cordinateY, direction, shelldc, gas):
         self.cordinateX = cordinateX
@@ -29,7 +29,7 @@ class Tank:
         self.gas = gas
         self.hittarget = 0
         self.missedtarget = 0
-
+#Kuras
     def loose_gas(self, action):
         if action in ("n",  "w", "s", "e"):
             self.gas -= 10
@@ -38,7 +38,7 @@ class Tank:
 
     def gain_gas(self):
         self.gas += 50
-
+#Judėjimas
     def move(self, to):
         if to == "n":
             self.direction = "UP"
@@ -56,7 +56,7 @@ class Tank:
             self.direction = "RIGHT"
             self.cordinateX += 1
             print("MOVED EAST")
-
+#Pasisukimas nejudant iš vietos
     def turn_turret(self, turn):
         if turn == "+":
             if self.direction == "UP":
@@ -76,7 +76,7 @@ class Tank:
                 self.direction = "RIGHT"
             else:
                 self.direction = "UP"
-
+#Šūvis + šūvių skaičiavimas
     def shoot(self):
         if self.direction == "UP":
             self.shelldc["Shot to North"] += 1
@@ -90,12 +90,13 @@ class Tank:
         if self.direction == "RIGHT":
             self.shelldc["Shot to East"] += 1
             print("SHOT TO EAST")
-
+#Patikrina ar šūvis pataiko į priešą
     def check_hit(self, ec):
         ecx = ec[0]
         ecy = ec[1]
 
         def hit(d, tankc, enemyc):
+            global ran
             if d == "UP" or d == "RIGHT":
                 ran = range(tankc, tankc+11)
             if d == "DOWN" or d == "LEFT":
@@ -121,14 +122,18 @@ class Tank:
                 time.sleep(0.5)
                 print(".")
             return False
-
+#Pataiktmų ir NEpataikymų skaičiavimas
     def target_hit(self):
         self.hittarget += 1
     def target_missed(self):
         self.missedtarget += 1
-
+#Tanko info
     def info(self):
         print(f"GAS LEFT: {self.gas}")
         print(f"Tank Cordinates:{(self.cordinateX, self.cordinateY)}")
         print(f"Direction: {self.direction}")
         print(self.shelldc)
+#Pickle
+    def pickle_get_hit(self):
+        with open("hit.pkl", 'wb') as file:
+            pickle.dump(self.hittarget, file)
