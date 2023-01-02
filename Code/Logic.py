@@ -20,15 +20,26 @@ class Enemy:
             else:
                 return ecordinates
 
+    # def pickle_enemy(self):
+    #     with open("enemy.pkl", 'wb') as file:
+    #         pickle.dump(self.ecordinates, file)
+    # def open_pickle_enemy(self):
+    #     try:
+    #         with open("enemy.pkl", 'rb') as file:
+    #             enemy = pickle.load(file)
+    #         return enemy
+    #     except:
+    #         pass
+
 class Tank:
-    def __init__(self, cordinateX, cordinateY, direction, shelldc, gas):
+    def __init__(self, cordinateX, cordinateY, direction, shelldc, gas, hittarget, missedtarget):
         self.cordinateX = cordinateX
         self.cordinateY = cordinateY
         self.direction = direction
         self.shelldc = shelldc
         self.gas = gas
-        self.hittarget = 0
-        self.missedtarget = 0
+        self.hittarget = hittarget
+        self.missedtarget = missedtarget
 #Kuras
     def loose_gas(self, action):
         if action in ("n",  "w", "s", "e"):
@@ -133,7 +144,28 @@ class Tank:
         print(f"Tank Cordinates:{(self.cordinateX, self.cordinateY)}")
         print(f"Direction: {self.direction}")
         print(self.shelldc)
-#Pickle
+#Pickle Hit record
     def pickle_get_hit(self):
         with open("hit.pkl", 'wb') as file:
             pickle.dump(self.hittarget, file)
+    def check_hit_count(self):
+        try:
+            with open("hit.pkl", 'rb') as file:
+                record = pickle.load(file)
+            return record
+        except:
+            return ("No previous data")
+#Pickle Resume game
+    # def pickle_tank(self):
+    #     with open("tank.pkl", 'wb') as file:
+    #         pickle.dump((self.cordinateX, self.cordinateY, self.direction, self.shelldc, self.gas, self.hittarget, self.missedtarget), file)
+    # def open_pickle_tank(self):
+    #     try:
+    #         with open("tank.pkl", 'rb') as file:
+    #             tank = pickle.load(file)
+    #             for item in tank:
+    #                 return item
+    #     except:
+    #         print("No previous game")
+
+
