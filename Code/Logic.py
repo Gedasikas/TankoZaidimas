@@ -2,12 +2,15 @@ import random
 import time
 import pickle
 
+
 class Plain:
     def __init__(self, xmax, ymax):
         self.xmax = xmax
         self.ymax = ymax
         self.xmin = -xmax
         self.ymin = -ymax
+
+
 class Enemy:
     def __init__(self):
         self.ecordinates = self.generate_cord()
@@ -31,6 +34,7 @@ class Enemy:
     #     except:
     #         pass
 
+
 class Tank:
     def __init__(self, cordinateX, cordinateY, direction, shelldc, gas, hittarget, missedtarget):
         self.cordinateX = cordinateX
@@ -40,16 +44,18 @@ class Tank:
         self.gas = gas
         self.hittarget = hittarget
         self.missedtarget = missedtarget
-#Kuras
+
+    # Kuras
     def loose_gas(self, action):
-        if action in ("n",  "w", "s", "e"):
+        if action in ("n", "w", "s", "e"):
             self.gas -= 10
         if action in ("-", "+", "c"):
             self.gas -= 5
 
     def gain_gas(self):
         self.gas += 50
-#Judėjimas
+
+    # Judėjimas
     def move(self, to):
         if to == "n":
             self.direction = "UP"
@@ -67,7 +73,8 @@ class Tank:
             self.direction = "RIGHT"
             self.cordinateX += 1
             print("MOVED EAST")
-#Pasisukimas nejudant iš vietos
+
+    # Pasisukimas nejudant iš vietos
     def turn_turret(self, turn):
         if turn == "+":
             if self.direction == "UP":
@@ -87,7 +94,8 @@ class Tank:
                 self.direction = "RIGHT"
             else:
                 self.direction = "UP"
-#Šūvis + šūvių skaičiavimas
+
+    # Šūvis + šūvių skaičiavimas
     def shoot(self):
         if self.direction == "UP":
             self.shelldc["Shot to North"] += 1
@@ -101,7 +109,8 @@ class Tank:
         if self.direction == "RIGHT":
             self.shelldc["Shot to East"] += 1
             print("SHOT TO EAST")
-#Patikrina ar šūvis pataiko į priešą
+
+    # Patikrina ar šūvis pataiko į priešą
     def check_hit(self, ec):
         ecx = ec[0]
         ecy = ec[1]
@@ -109,9 +118,9 @@ class Tank:
         def hit(d, tankc, enemyc):
             global ran
             if d == "UP" or d == "RIGHT":
-                ran = range(tankc, tankc+11)
+                ran = range(tankc, tankc + 11)
             if d == "DOWN" or d == "LEFT":
-                ran = range(tankc, tankc-11, -1)
+                ran = range(tankc, tankc - 11, -1)
             for shot in ran:
                 time.sleep(0.5)
                 if shot == enemyc:
@@ -123,49 +132,73 @@ class Tank:
         if self.direction == "UP" and self.cordinateX == ecx and ecy >= self.cordinateY:
             return hit(self.direction, self.cordinateY, ecy)
         if self.direction == "DOWN" and self.cordinateX == ecx and ecy <= self.cordinateY:
-                return hit(self.direction, self.cordinateY, ecy)
+            return hit(self.direction, self.cordinateY, ecy)
         if self.direction == "LEFT" and self.cordinateY == ecy and ecx <= self.cordinateX:
-                return hit(self.direction, self.cordinateX, ecx)
+            return hit(self.direction, self.cordinateX, ecx)
         if self.direction == "RIGHT" and self.cordinateY == ecy and ecx >= self.cordinateX:
-                return hit(self.direction, self.cordinateX, ecx)
+            return hit(self.direction, self.cordinateX, ecx)
         else:
             for hit in range(0, 10):
                 time.sleep(0.5)
                 print(".")
             return False
-#Pataiktmų ir NEpataikymų skaičiavimas
+
+    # Pataiktmų ir NEpataikymų skaičiavimas
     def target_hit(self):
         self.hittarget += 1
+
     def target_missed(self):
         self.missedtarget += 1
-#Tanko info
+
+    # Tanko info
     def info(self):
         print(f"GAS LEFT: {self.gas}")
         print(f"Tank Cordinates:{(self.cordinateX, self.cordinateY)}")
         print(f"Direction: {self.direction}")
         print(self.shelldc)
-#Pickle Hit record
+
+    # Pickle Hit record
     def pickle_get_hit(self):
-        with open("hit.pkl", 'wb') as file:
-            pickle.dump(self.hittarget, file)
-    def check_hit_count(self):
+        try:
+            players = pickle.load(open("hit.pkl", "rb"))
+            name = input("Name: ")
+            if name in players:
+                if players.get(name) < self.hittarget:
+                    players[name] = self.hittarget
+                    print("NEW personal best!")
+                    with open("hit.pkl", 'wb') as file:
+                        pickle.dump(players, file)
+                else:
+                    print(f"Personal best score to beat: {players[name]}")
+            else:
+                players[name] = self.hittarget
+                print("NEW personal best!")
+                with open("hit.pkl", 'wb') as file:
+                    pickle.dump(players, file)
+        except:
+            pickle.dump({}, open("hit.pkl", "wb"))
+            players = pickle.load(open("hit.pkl", "rb"))
+            name = input("Name: ")
+            players[name] = self.hittarget
+            with open("hit.pkl", 'wb') as file:
+                pickle.dump(players, file)
+
+    def pickle_hit_count(self):
         try:
             with open("hit.pkl", 'rb') as file:
                 record = pickle.load(file)
-            return record
+            return sorted(record.items(), key=lambda x: x[1], reverse=True)
         except:
             return ("No previous data")
-#Pickle Resume game
-    # def pickle_tank(self):
-    #     with open("tank.pkl", 'wb') as file:
-    #         pickle.dump((self.cordinateX, self.cordinateY, self.direction, self.shelldc, self.gas, self.hittarget, self.missedtarget), file)
-    # def open_pickle_tank(self):
-    #     try:
-    #         with open("tank.pkl", 'rb') as file:
-    #             tank = pickle.load(file)
-    #             for item in tank:
-    #                 return item
-    #     except:
-    #         print("No previous game")
-
-
+# Pickle Resume game
+# def pickle_tank(self):
+#     with open("tank.pkl", 'wb') as file:
+#         pickle.dump((self.cordinateX, self.cordinateY, self.direction, self.shelldc, self.gas, self.hittarget, self.missedtarget), file)
+# def open_pickle_tank(self):
+#     try:
+#         with open("tank.pkl", 'rb') as file:
+#             tank = pickle.load(file)
+#             for item in tank:
+#                 return item
+#     except:
+#         print("No previous game")

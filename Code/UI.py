@@ -1,21 +1,18 @@
-from Code.Logic import Tank, Enemy, Plain
-import time
-#Objects
+from Code.Logic import Tank, Enemy, Plain, time
 
 Plain001 = Plain(10, 10)
-#-----------------
 
 while True:
     commandput = input("""Start new game: 1
 Resume game: 2 (NEVEIKIA)
 Controls: 3
-Record: 4
+High scores: 4
 Exit: 5
 Input:""")
     match commandput:
         case "1":
             Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, },
-                           200, 0, 0)
+                           100, 0, 0)
             Enemy001 = Enemy()
             print()
             Tank001.info()
@@ -23,15 +20,12 @@ Input:""")
             print()
             while True:
                 if Tank001.gas <= 0:
-                    try:
-                        if Tank001.check_hit_count() < Tank001.hittarget:
-                            Tank001.pickle_get_hit()
-                    except:
-                        Tank001.pickle_get_hit()
                     Tank001.info()
                     print(f"Enemy coordinates: {Enemy001.ecordinates}\n")
                     print(f"Targets hit: {Tank001.hittarget}  Targets missed: {Tank001.missedtarget}")
                     print("OUT OF GAS\n###GAME OVER###")
+                    print()
+                    Tank001.pickle_get_hit()
                     break
                 else:
                     userput = input("Enter tank command:")
@@ -125,15 +119,17 @@ Pataikymas duoda 50 kuro.""")
         case "4":
             print()
             Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, },
-                           200, 0, 0)
-            print(f"Record: {Tank001.check_hit_count()}")
+                           100, 0, 0)
+            print("HIGH SCORES:")
+            l = Tank001.pickle_hit_count()
+            if l == "No previous data":
+                print(l)
+            else:
+                for count, player in enumerate(l, 1):
+                    print(f"{count}. {player}")
         case "5":
             print("Thanks for playing, bye")
             break
         case other:
             print("Command does not exist")
     print()
-
-
-
-
