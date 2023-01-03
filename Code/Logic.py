@@ -180,6 +180,7 @@ class Tank:
             players = pickle.load(open("hit.pkl", "rb"))
             name = input("Name: ")
             players[name] = self.hittarget
+            print("NEW personal best!")
             with open("hit.pkl", 'wb') as file:
                 pickle.dump(players, file)
 

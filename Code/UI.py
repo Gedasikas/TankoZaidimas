@@ -1,12 +1,15 @@
 from Code.Logic import Tank, Enemy, Plain, time
+import os
 
 Plain001 = Plain(10, 10)
-
+Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, },
+                           100, 0, 0)
+Enemy001 = Enemy()
 while True:
     commandput = input("""Start new game: 1
-Resume game: 2 (NEVEIKIA)
-Controls: 3
-High scores: 4
+Controls: 2
+High scores: 3
+Delete high scores: 4
 Exit: 5
 Input:""")
     match commandput:
@@ -104,19 +107,18 @@ Input:""")
                             print()
                             print("COMMAND DOES NOT EXIST")
                             print()
+
         case "2":
-            pass
-        case "3":
             print()
             print("""Judėjimas: w a s arba d
-Šauti: e, maksimalus šūvio atstumas yra 10 kordinačių
+Šauti: e maksimalus šūvio atstumas yra 10 kordinačių
 Pasisukti 90 laipsnių prieš laikrodžio rodyklę: -
 Pasisukti 90 laipsnių palei laikrodžio rodyklę: +
 Info: c
 Išeiti: /
 Judėjimas ir šūvis kainuoja 10 kuro, pasisukimas ir info kainuoja 5.
 Pataikymas duoda 50 kuro.""")
-        case "4":
+        case "3":
             print()
             Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, },
                            100, 0, 0)
@@ -127,9 +129,24 @@ Pataikymas duoda 50 kuro.""")
             else:
                 for count, player in enumerate(l, 1):
                     print(f"{count}. {player}")
+        case "4":
+            try:
+                file = 'hit.pkl'
+                location = "C:/Users/admin/Documents/GitHub/TankoZaidimas/Code"
+                path = os.path.join(location, file)
+                os.remove(path)
+                print()
+                print("High score data removed")
+            except:
+                print()
+                print("No saved data")
         case "5":
             print("Thanks for playing, bye")
             break
         case other:
             print("Command does not exist")
     print()
+
+
+
+
