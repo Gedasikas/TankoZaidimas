@@ -24,14 +24,14 @@ class Enemy:
                 return ecordinates
 
 class Tank:
-    def __init__(self, cordinateX, cordinateY, direction, shelldc, gas, hittarget, missedtarget):
+    def __init__(self, cordinateX, cordinateY, direction, shelldc, gas):
         self.cordinateX = cordinateX
         self.cordinateY = cordinateY
         self.direction = direction
         self.shelldc = shelldc
         self.gas = gas
-        self.hittarget = hittarget
-        self.missedtarget = missedtarget
+        self.hittarget = 0
+        self.missedtarget = 0
 
     # Kuras
     def loose_gas(self, action):

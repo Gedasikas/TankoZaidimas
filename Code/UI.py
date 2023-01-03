@@ -2,9 +2,7 @@ from Code.Logic import Tank, Enemy, Plain, time
 import os
 
 Plain001 = Plain(10, 10)
-Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, },
-                           100, 0, 0)
-Enemy001 = Enemy()
+
 while True:
     commandput = input("""Start new game: 1
 Controls: 2
@@ -14,8 +12,7 @@ Exit: 5
 Input:""")
     match commandput:
         case "1":
-            Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, },
-                           100, 0, 0)
+            Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, }, 100)
             Enemy001 = Enemy()
             print()
             Tank001.info()
@@ -120,8 +117,7 @@ Judėjimas ir šūvis kainuoja 10 kuro, pasisukimas ir info kainuoja 5.
 Pataikymas duoda 50 kuro.""")
         case "3":
             print()
-            Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, },
-                           100, 0, 0)
+            Tank001 = Tank(0, 0, "UP", {"Shot to North": 0, "Shot to West": 0, "Shot to South": 0, "Shot to East": 0, }, 100)
             print("HIGH SCORES:")
             l = Tank001.pickle_hit_count()
             if l == "No previous data":
